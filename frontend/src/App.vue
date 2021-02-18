@@ -1,10 +1,28 @@
 <template>
-  <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
+  <div>
+    <div id="nav">
+      <router-link to="/">Home</router-link> |
+      <auth-panel />
+    </div>
+    <router-view />
   </div>
-  <router-view/>
 </template>
+
+
+<script>
+import AuthPanel from '@/components/AuthPanel.vue'
+
+export default {
+  name: 'App',
+  components: {
+    AuthPanel
+  },
+  created () {
+    this.$store.dispatch('pullAuthUserData')
+  }
+}
+</script>
+
 
 <style lang="scss">
 #app {
