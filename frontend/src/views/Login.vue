@@ -1,6 +1,8 @@
 <template lang="html">
   <div class="container">
-    <Form ref="loginForm" class="login-form" @submit="authenticate">
+    <h1>Log in</h1>
+
+    <Form ref="loginForm" class="login-form form form_centered form_narrow" @submit="authenticate">
       <div class="form-group">
         <label for="id_username">Username</label>
         <Field name="username"
@@ -54,14 +56,14 @@ export default {
 components: {
     Field,
     Form,
-    ErrorMessage,
+    ErrorMessage
   },
 
   data () {
     return {
       username: '',
       password: '',
-      globalErrors: '',
+      globalErrors: ''
     }
   },
 
@@ -109,8 +111,4 @@ components: {
 
 
 <style lang="css">
-.login-form {
-  margin: 0 auto;
-  max-width: 400px;
-}
 </style>

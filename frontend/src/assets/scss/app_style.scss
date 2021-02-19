@@ -1,0 +1,12 @@
+
+.form {
+
+    &_centered {
+        display: block;
+        margin: 0 auto;
+    }
+
+    &_narrow {
+        max-width: 400px;
+    }
+}

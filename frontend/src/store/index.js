@@ -14,9 +14,10 @@ export default createStore({
     jwt: localStorage.getItem('token'),
     endpoints: {
       // TODO: Remove hardcoding of dev endpoints
+      baseUrl: 'http://127.0.0.1:8000/api/v1/',
       obtainJWT: 'http://127.0.0.1:8000/api/v1/auth/token/obtain/',
       refreshJWT: 'http://127.0.0.1:8000/api/v1/auth/token/refresh/',
-      baseUrl: 'http://127.0.0.1:8000/api/v1/'
+      signUp: 'http://127.0.0.1:8000/api/v1/users/'
     }
   },
 
