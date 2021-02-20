@@ -7,9 +7,9 @@ axios.defaults.xsrfCookieName = 'csrftoken'
 axios.defaults.xsrfHeaderName = 'X-CSRFToken'
 
 
-const backendUrl = 'http://127.0.0.1:8000/api/v1/'
-const movieApiUrl = 'http://www.omdbapi.com/'
-const omdbApiKey = 3058898
+const backendUrl = process.env.VUE_APP_BACKEND_URL
+const movieApiUrl = process.env.VUE_APP_MOVIE_API_URL
+const omdbApiKey = process.env.VUE_APP_MOVIE_API_KEY
 
 
 export default createStore({
