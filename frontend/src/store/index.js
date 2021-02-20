@@ -7,17 +7,25 @@ axios.defaults.xsrfCookieName = 'csrftoken'
 axios.defaults.xsrfHeaderName = 'X-CSRFToken'
 
 
+const backendUrl = 'http://127.0.0.1:8000/api/v1/'
+const movieApiUrl = 'http://www.omdbapi.com/'
+const omdbApiKey = 3058898
+
+
 export default createStore({
   state: {
     authUser: {},
     isAuthenticated: false,
     jwt: localStorage.getItem('token'),
+    omdbApiKey: omdbApiKey,
     endpoints: {
       // TODO: Remove hardcoding of dev endpoints
-      baseUrl: 'http://127.0.0.1:8000/api/v1/',
-      obtainJWT: 'http://127.0.0.1:8000/api/v1/auth/token/obtain/',
-      refreshJWT: 'http://127.0.0.1:8000/api/v1/auth/token/refresh/',
-      signUp: 'http://127.0.0.1:8000/api/v1/users/'
+      backend: backendUrl,
+      movieApi: movieApiUrl,
+      obtainJWT: backendUrl + 'auth/token/obtain/',
+      refreshJWT: backendUrl + 'auth/token/refresh/',
+      signUp: backendUrl + 'users/',
+      currUserData: backendUrl + 'users/me/'
     }
   },
 
@@ -66,13 +74,18 @@ export default createStore({
       const axiosInstance = axios.create(context.getters.axiosCfg)
           
       axiosInstance({
-        url: '/users/me/',
+        url: this.state.endpoints.currUserData,
         method: 'get',
         params: {}
       }).then( response => {
           context.commit('setAuthUser',
             {authUser: response.data, isAuthenticated: true}
           )
+      }).catch( error => {
+        if (error.response.status == 401) {
+          context.commit('removeToken')
+          return Promise.resolve(error)
+        }
       })
     },
 

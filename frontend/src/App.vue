@@ -2,6 +2,9 @@
   <div>
     <div id="nav">
       <router-link to="/">Home</router-link> |
+      <template v-if="isAuthenticated">
+        <router-link :to="{ name: 'BrowseMovies' }">Browse movies</router-link> |
+      </template>
       <auth-panel />
     </div>
     <router-view />
@@ -11,6 +14,7 @@
 
 <script>
 import AuthPanel from '@/components/AuthPanel.vue'
+import { mapState } from 'vuex'
 
 export default {
   name: 'App',
@@ -19,16 +23,18 @@ export default {
   },
   created () {
     this.$store.dispatch('pullAuthUserData')
-  }
+  },
+  computed: {
+    ...mapState([
+      'isAuthenticated'
+    ])
+  },
 }
 </script>
 
 
 <style lang="scss">
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
 }

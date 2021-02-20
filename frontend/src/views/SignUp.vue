@@ -12,7 +12,9 @@
     </template>
 
     <template v-else>
-      <Form ref="signUpForm" class="sign-up-form form form_centered form_narrow" @submit="submitSignUpForm">
+      <Form ref="signUpForm" 
+            class="sign-up-form form form_centered form_narrow"
+            @submit.prevent="submitSignUpForm">
         <div class="form-group">
           <label for="id_username">Username</label>
           <Field name="username"
@@ -23,7 +25,7 @@
                 maxlength="150"
                 id="id_username"
                 class="form-control"
-                :rules="isRequired" />
+                :rules="isRequiredValidator" />
           <ErrorMessage name="username"
                         class="d-block mt-2 alert alert-danger" />
         </div>
@@ -35,7 +37,8 @@
                 placeholder="Password"
                 id="id_password1"
                 class="form-control"
-                :rules="isRequired" />
+                autocomplete="new-password"
+                :rules="isRequiredValidator" />
           <ErrorMessage name="password1"
                         class="d-block mt-2 alert alert-danger" />
         </div>
@@ -47,7 +50,8 @@
                 placeholder="Password (repeat)"
                 id="id_password2"
                 class="form-control"
-                :rules="isRequired" />
+                autocomplete="new-password"
+                :rules="isRequiredValidator" />
           <ErrorMessage name="password2"
                         class="d-block mt-2 alert alert-danger" />
         </div>
@@ -70,14 +74,12 @@
 <script>
 import axios from 'axios'
 import { Field, Form, ErrorMessage } from 'vee-validate';
+import validators from '@/mixins/validators';
 
 export default {
   name: 'SignUp',
-  meta: {
-    title: 'Sign up'
-  },
-
-components: {
+  mixins: [validators],
+  components: {
     Field,
     Form,
     ErrorMessage
@@ -128,15 +130,7 @@ components: {
             return Promise.resolve(error)
           }
         })
-    },
-
-    isRequired (value) {
-      return (value && value.trim()) ? true : 'This field is required';
     }
   }
 }
 </script>
-
-
-<style lang="css">
-</style>

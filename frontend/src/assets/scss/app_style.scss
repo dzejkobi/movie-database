@@ -1,3 +1,15 @@
+.page-item {
+    min-width: 44px;
+
+    &:first-child .page-link {
+        border-bottom-left-radius: 0;
+    }
+
+    &:last-child .page-link {
+        border-top-right-radius: 0;
+    }
+}
+
 
 .form {
 
@@ -10,3 +22,22 @@
         max-width: 400px;
     }
 }
+
+
+.container {
+
+    &_wide {
+        max-width: 1200px;
+    }
+}
+
+
+.card {
+
+    &_movie {
+        max-width: 260px;
+        min-height: 570px;
+        margin: 0px auto 20px auto;
+    }
+}
+

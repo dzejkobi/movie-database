@@ -13,7 +13,7 @@
                maxlength="150"
                id="id_username"
                class="form-control"
-               :rules="isRequired" />
+               :rules="isRequiredValidator" />
         <ErrorMessage name="username"
                       class="d-block mt-2 alert alert-danger" />
       </div>
@@ -25,7 +25,7 @@
                placeholder="Password"
                id="id_password"
                class="form-control"
-               :rules="isRequired" />
+               :rules="isRequiredValidator" />
         <ErrorMessage name="password"
                       class="d-block mt-2 alert alert-danger" />
       </div>
@@ -45,15 +45,13 @@
 
 <script>
 import axios from 'axios'
-import { Field, Form, ErrorMessage } from 'vee-validate';
+import { Field, Form, ErrorMessage } from 'vee-validate'
+import validators from '@/mixins/validators'
 
 export default {
   name: 'Login',
-  meta: {
-    title: 'Login'
-  },
-
-components: {
+  mixins: [validators],
+  components: {
     Field,
     Form,
     ErrorMessage
@@ -100,15 +98,7 @@ components: {
             return Promise.resolve(error)
           }
         })
-    },
-
-    isRequired (value) {
-      return (value && value.trim()) ? true : 'This field is required';
     }
   }
 }
 </script>
-
-
-<style lang="css">
-</style>
