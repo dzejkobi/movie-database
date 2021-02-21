@@ -50,14 +50,7 @@ $color-link-hover: #2d835c;
 
 .page-item {
     min-width: 44px;
-
-    &:first-child .page-link {
-        border-bottom-left-radius: 0;
-    }
-
-    &:last-child .page-link {
-        border-top-right-radius: 0;
-    }
+    height: 44px;
 }
 
 
@@ -100,7 +93,13 @@ $color-link-hover: #2d835c;
             object-fit: cover;
             height: 400px;
             max-height: 400px;
-            background-color: black;
+            background-color:white;
+            background-image: url('../img/icons/movie.svg');
+            background-position: center;
+            background-size: 160px 160px;
+            background-repeat: no-repeat;
+            border-top-left-radius: 0.25rem;
+            border-top-right-radius: 0.25rem;
         }
 
         &__favourite-btn {
@@ -121,6 +120,10 @@ $color-link-hover: #2d835c;
             &_checked {
                 background-image: url('../img/icons/heart-filled.svg');
             }
+
+            &:hover {
+                opacity: 1;
+            }
         }
 
         .card-body {
@@ -131,7 +134,26 @@ $color-link-hover: #2d835c;
             background-color: white;
             color: $color-main;
             border-top: 1px solid rgba(0, 0, 0, 0.125);
+            border-bottom-left-radius: 0.25rem;
+            border-bottom-right-radius: 0.25rem;
         }
     }
 }
 
+
+.movie-details {
+
+    &__poster {
+        @include shadowed;
+
+        width: 300px;
+        max-width: 100%;
+        min-height: 300px;
+
+        background-color:white;
+        background-image: url('../img/icons/movie.svg');
+        background-position: center;
+        background-size: 160px 160px;
+        background-repeat: no-repeat;
+    }
+}

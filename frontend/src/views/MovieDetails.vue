@@ -11,9 +11,9 @@
     <div v-if="movieData" class="content">
       <h1 class=mb-5>{{ movieData.Title }}</h1>
 
-      <div class="row">
+      <div class="row movie-details">
         <div class="col-lg-4 mb-3">
-          <img class="max-w-100 shadowed"
+          <img class="movie-details__poster"
                :src="movieData.Poster" :title="movieData.Title + ' poster'" />
         </div>
         <div class="col-lg-8 mb-3">
@@ -23,7 +23,9 @@
             </template>
           </p>
           <p>
-            <router-link :to="{ name: 'BrowseMovies' }" class="link">Go back to movie browser</router-link>
+            <router-link :to="{ name: 'BrowseMovies' }" class="link">
+              Go back to movie browser
+            </router-link>
           </p>
         </div>
       </div>

@@ -1,6 +1,6 @@
 <template>
   <div class="container container_wide">
-    <h1>Browse movies</h1>
+    <h1 class=mb-5>Browse movies</h1>
 
     <div class="card">
       <div class="card-header">
@@ -23,7 +23,13 @@
                           class="d-block mt-2 alert alert-danger" />
           </div>
 
+          <p v-if="error"
+               class="mt-2 alert alert-danger">
+            {{ error }}
+          </p>
+
           <button type="submit" class="btn btn-primary mt-3 mb-3">Find movies</button>
+
         </Form>
       </div>
     </div>
@@ -89,7 +95,9 @@ export default {
     return {
       searchTitle: '',
       page: 1,
+      error: null,
       movieList: [],
+      favourites: [],
       totalResults: 0
     }
   },
@@ -114,17 +122,18 @@ export default {
         page: this.page
       }
 
+      this.error = null
       axios.get(
         this.$store.state.endpoints.movieApi, {params: params}
       ).then( response => {
         if (response.data.Response !== "True") {
-          alert(`Error occurred! ${response.data.Error}`)
+          this.error = `Error occurred! ${response.data.Error}`
           return
         }
         this.movieList = response.data.Search
         this.totalResults = response.data.totalResults
       }).catch( error => {
-        alert(`Error occurred! Response status: ${error.response.status}.`)
+        this.error = `Error occurred! Response status: ${error.response.status}.`
       })
     },
 

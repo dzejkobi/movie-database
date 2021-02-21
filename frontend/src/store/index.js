@@ -87,10 +87,6 @@ export default createStore({
           return Promise.resolve(error)
         }
       })
-    },
-
-    authorizedRequest () {
-      
     }
   },
 
