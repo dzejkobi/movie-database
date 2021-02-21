@@ -1,3 +1,53 @@
+
+$color-main: #2c3e50;
+$color-link: #42b983;
+$color-link-hover: #2d835c;
+
+
+@mixin shadowed {
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+
+#app {
+    text-align: center;
+    color: $color-main;
+}
+  
+
+#nav {
+    padding: 30px;
+  
+    a {
+        font-weight: bold;
+        color: $color-main;
+  
+        &.router-link-exact-active {
+            color: $color-link;
+        }
+    }
+}
+
+
+.link {
+    color: $color-link;
+
+    &:hover {
+        color: $color-link-hover;
+    }
+}
+
+
+.shadowed {
+    @include shadowed;    
+}
+
+
+.max-w-100 {
+    max-width: 100%;
+}
+
+
 .page-item {
     min-width: 44px;
 
@@ -35,9 +85,53 @@
 .card {
 
     &_movie {
-        max-width: 260px;
-        min-height: 570px;
-        margin: 0px auto 20px auto;
+        @include shadowed;
+
+        display: block;
+        max-width: 300px;
+        height: 525px;
+        margin: 0px auto 25px auto;
+
+        .card-img-top {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            object-fit: cover;
+            height: 400px;
+            max-height: 400px;
+            background-color: black;
+        }
+
+        &__favourite-btn {
+            @include shadowed;
+            
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 40px;
+            height: 40px;
+            background-image: url('../img/icons/heart-border.svg');
+            background-position: center;
+            background-size: 30px 30px;
+            background-repeat: no-repeat;
+            opacity: 0.5;
+            z-index: 100;
+
+            &_checked {
+                background-image: url('../img/icons/heart-filled.svg');
+            }
+        }
+
+        .card-body {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: white;
+            color: $color-main;
+            border-top: 1px solid rgba(0, 0, 0, 0.125);
+        }
     }
 }
 

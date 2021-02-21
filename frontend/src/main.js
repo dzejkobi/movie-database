@@ -6,4 +6,7 @@ import store from './store'
 import './assets/scss/main.scss'
 
 
-createApp(App).use(store).use(router).mount('#app')
+createApp(App)
+  .use(store)
+  .use(router)
+  .mount('#app')

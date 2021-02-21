@@ -37,13 +37,29 @@
     </div>
 
     <nav aria-label="Search results pages">
-      <ul class="pagination justify-content-center flex-wrap">
+      <ul class="pagination justify-content-center flex-wrap mt-3 mb-5">
+        <li class="page-item"
+            :class="{'disabled': page == 1 || !totalResults}">
+          <a class="page-link" href="#" aria-label="Previous"
+             @click.prevent="setCurrentPage(page - 1)">
+            <span aria-hidden="true">&laquo;</span>
+            <span class="sr-only">Previous</span>
+          </a>
+        </li>
         <li v-for="number in pageRange" :key="number"
             class="page-item"
             :class="{ active: number == page }">
           <a class="page-link" href=""
              @click.prevent="setCurrentPage(number)">
             {{ number }}
+          </a>
+        </li>
+        <li class="page-item"
+            :class="{'disabled': page == pageRange.slice(-1)[0] || !totalResults}">
+          <a class="page-link" href="#" aria-label="Next"
+             @click.prevent="setCurrentPage(page + 1)">
+            <span aria-hidden="true">&raquo;</span>
+            <span class="sr-only">Next</span>
           </a>
         </li>
       </ul>
@@ -54,6 +70,7 @@
 
 <script>
 import axios from 'axios'
+import { mapState } from 'vuex'
 import { Field, Form, ErrorMessage } from 'vee-validate'
 import validators from '@/mixins/validators'
 import MovieTile from '@/components/MovieTile'
@@ -78,6 +95,9 @@ export default {
   },
 
   computed: {
+    ...mapState([
+      'isAuthenticated'
+    ]),
     pageRange () {
       return [
         ...Array(Math.floor(this.totalResults / 10)).keys()
