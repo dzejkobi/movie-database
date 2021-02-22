@@ -3,7 +3,6 @@ version: '3.8'
 services:
 
   db:
-    container_name: md_db
     image: postgres:13.2-alpine
     volumes:
       - db_data:/var/lib/postgresql/data/
@@ -13,20 +12,16 @@ services:
       - POSTGRES_DB=movie_db
 
   backend:
-    container_name: md_backend
     build:
       context: backend
-      dockerfile: Dockerfile
     env_file:
       - backend/.env
     ports:
       - "8000:8000"
 
   frontend:
-    container_name: md_frontend
     build:
       context: frontend
-      dockerfile: Dockerfile
     env_file:
       - frontend/.env
     ports:
