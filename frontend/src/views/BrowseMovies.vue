@@ -28,6 +28,11 @@
             {{ error }}
           </p>
 
+          <p v-if="backendError"
+               class="mt-2 alert alert-danger">
+            {{ backendError }}
+          </p>
+
           <button type="submit" class="btn btn-primary mt-3 mb-3">Find movies</button>
 
         </Form>
@@ -74,6 +79,7 @@
   </div>
 </template>
 
+
 <script>
 import axios from 'axios'
 import { mapState } from 'vuex'
@@ -96,6 +102,7 @@ export default {
       searchTitle: '',
       page: 1,
       error: null,
+      backendError: null,
       movieList: [],
       favourites: [],
       totalResults: 0
@@ -110,6 +117,18 @@ export default {
       return [
         ...Array(Math.floor(this.totalResults / 10)).keys()
       ].map(i => i + 1)
+    },
+  },
+
+  provide () {
+    return {
+      favouritesFn: () => this.favourites
+    }
+  },
+
+  created () {
+    if (this.isAuthenticated) {
+      this.getFavourites()
     }
   },
   
@@ -134,6 +153,25 @@ export default {
         this.totalResults = response.data.totalResults
       }).catch( error => {
         this.error = `Error occurred! Response status: ${error.response.status}.`
+      })
+    },
+
+    getFavourites () {
+      const axiosInstance = axios.create(this.$store.getters.axiosCfg)
+
+      axiosInstance({
+        url: this.$store.state.endpoints.favourites,
+        method: 'get',
+        params: {},
+      }).then( response => {
+        if (response.status == 200) {
+          this.favourites = response.data.results
+        } else {
+          this.backendError(`Error occurred! Back-end response status: ${response.status}.`)
+        }
+      }).catch( error => {
+        this.backendError('Unexpected back-end error occurred!')
+        console.log(error)
       })
     },
 

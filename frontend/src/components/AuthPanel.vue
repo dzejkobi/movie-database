@@ -25,6 +25,7 @@ export default {
   methods: {
     logout () {
       this.$store.commit('removeToken')
+      this.$router.push({name: 'Home'})
     }
   }
 }

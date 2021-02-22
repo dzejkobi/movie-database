@@ -25,7 +25,8 @@ export default createStore({
       obtainJWT: backendUrl + 'auth/token/obtain/',
       refreshJWT: backendUrl + 'auth/token/refresh/',
       signUp: backendUrl + 'users/',
-      currUserData: backendUrl + 'users/me/'
+      currUserData: backendUrl + 'users/me/',
+      favourites: backendUrl + 'movies/favourites/'
     }
   },
 
@@ -87,7 +88,7 @@ export default createStore({
           return Promise.resolve(error)
         }
       })
-    }
+    },
   },
 
   modules: {

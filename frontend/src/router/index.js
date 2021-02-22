@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-// import store from '@/store'
+import store from '@/store'
 
 const routes = [
   {
@@ -31,12 +31,18 @@ const routes = [
     name: 'MovieDetails',
     component: () => import('../views/MovieDetails.vue'),
     meta: {title: 'Movie details'}
+  },
+  {
+    path: '/favourite-movies',
+    name: 'FavouriteMovies',
+    component: () => import('../views/FavouriteMovies.vue'),
+    meta: {title: 'Favourite movies'}
   }
 ];
 
-// const restrictedRoutes = [
-//   'BrowseMovies', 'MovieDetails', 'MyFavourites'
-// ]
+const restrictedRoutes = [
+  'BrowseMovies', 'MovieDetails', 'FavouriteMovies',
+]
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
@@ -47,10 +53,10 @@ router.beforeEach ((to, from, next) => {
   let title = 'Movie Database'
   const subtitle = to.meta.title || to.name || null
 
-  // if (restrictedRoutes.includes(to.name) && !store.state.isAuthenticated) {
-  //   next({ name: 'Login' })
-  //   return
-  // }
+  if (restrictedRoutes.includes(to.name) && !store.state.isAuthenticated) {
+    next({ name: 'Login' })
+    return
+  }
 
   if (subtitle) {
     title = `${subtitle} | ${title}`

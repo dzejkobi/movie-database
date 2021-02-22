@@ -4,6 +4,7 @@
       <router-link to="/">Home</router-link> |
       <template v-if="isAuthenticated">
         <router-link :to="{ name: 'BrowseMovies' }">Browse movies</router-link> |
+        <router-link :to="{ name: 'FavouriteMovies' }">Favourites</router-link> |
       </template>
       <auth-panel />
     </div>
@@ -21,8 +22,8 @@ export default {
   components: {
     AuthPanel
   },
-  created () {
-    this.$store.dispatch('pullAuthUserData')
+  async created () {
+    await this.$store.dispatch('pullAuthUserData')
   },
   computed: {
     ...mapState([
