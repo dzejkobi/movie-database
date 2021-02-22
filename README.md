@@ -4,7 +4,7 @@ Simple website that allows browsing and searching movie database provided by
 http://www.omdbapi.com/ API.
 
 Before getting access to all features user has to sign up and log in
-(only standard sign up with password in supported by now).
+(only standard sign up with password is supported by now).
 
 
 ## Available features are

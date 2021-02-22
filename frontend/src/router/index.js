@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router'
 import store from '@/store'
 
 const routes = [
@@ -45,8 +45,8 @@ const restrictedRoutes = [
 ]
 
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
-  routes,
+  history: createWebHashHistory(),
+  routes
 })
 
 router.beforeEach ((to, from, next) => {
