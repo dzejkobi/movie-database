@@ -1,6 +1,6 @@
 <template>
   <div class="container container_wide">
-    <h1 class=mb-5>Your favourite movies</h1>
+    <h1 class="mb-5">Your favourite movies</h1>
 
     <div class="movie-list row mt-4">
       <span v-for="movie in movieList"
