@@ -1,16 +1,13 @@
 import { createStore } from 'vuex'
 import axios from 'axios'
 
-
 // Make Axios play nice with Django CSRF
 axios.defaults.xsrfCookieName = 'csrftoken'
 axios.defaults.xsrfHeaderName = 'X-CSRFToken'
 
-
 const backendUrl = process.env.VUE_APP_BACKEND_URL
 const movieApiUrl = process.env.VUE_APP_MOVIE_API_URL
 const omdbApiKey = process.env.VUE_APP_MOVIE_API_KEY
-
 
 export default createStore({
   state: {
@@ -33,7 +30,7 @@ export default createStore({
   getters: {
     axiosCfg: state => {
       if (!state.jwt) {
-        throw 'Missing JWT token!'
+        throw new Error('Missing JWT token!')
       }
 
       return {
@@ -71,26 +68,26 @@ export default createStore({
       if (!context.state.jwt) {
         return
       }
-      
+
       const axiosInstance = axios.create(context.getters.axiosCfg)
-          
+
       axiosInstance({
         url: this.state.endpoints.currUserData,
         method: 'get',
         params: {}
-      }).then( response => {
-          context.commit('setAuthUser',
-            {authUser: response.data, isAuthenticated: true}
-          )
-      }).catch( error => {
-        if (error.response.status == 401) {
+      }).then(response => {
+        context.commit('setAuthUser',
+          { authUser: response.data, isAuthenticated: true }
+        )
+      }).catch(error => {
+        if (error.response.status === 401) {
           context.commit('removeToken')
           return Promise.resolve(error)
         }
       })
-    },
+    }
   },
 
   modules: {
-  },
+  }
 })

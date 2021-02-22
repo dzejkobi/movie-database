@@ -7,7 +7,6 @@
   </button>
 </template>
 
-
 <script>
 import axios from 'axios'
 
@@ -24,13 +23,13 @@ export default {
       favourites: []
     }
   },
-  
+
   computed: {
     favourite () {
       let found = null
 
-      for (let item of this.favourites) {
-        if (item.imdb_id == this.movie.imdbID) {
+      for (const item of this.favourites) {
+        if (item.imdb_id === this.movie.imdbID) {
           found = item
           break
         }
@@ -46,12 +45,12 @@ export default {
   methods: {
     toggleFavourite () {
       const axiosInstance = axios.create(this.$store.getters.axiosCfg)
-      
+
       if (this.favourite) {
         axiosInstance({
           url: this.$store.state.endpoints.favourites + `${this.favourite.id}/`,
           method: 'delete'
-        }).then( () => {
+        }).then(() => {
           this.favourites.splice(this.favourites.indexOf(this.favourite), 1)
         })
       } else {
@@ -61,7 +60,7 @@ export default {
           data: {
             imdb_id: this.movie.imdbID
           }
-        }).then( response => {
+        }).then(response => {
           this.favourites.push(response.data)
         })
       }
@@ -69,4 +68,3 @@ export default {
   }
 }
 </script>
-  

@@ -12,7 +12,6 @@
   </div>
 </template>
 
-
 <script>
 import AuthPanel from '@/components/AuthPanel.vue'
 import { mapState } from 'vuex'
@@ -29,6 +28,6 @@ export default {
     ...mapState([
       'isAuthenticated'
     ])
-  },
+  }
 }
 </script>

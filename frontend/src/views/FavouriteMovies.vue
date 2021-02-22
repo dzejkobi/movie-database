@@ -62,10 +62,10 @@ export default {
       this.getMovies()
     }
   },
-  
+
   methods: {
     async getMovies () {
-      let params = {
+      const params = {
         apikey: this.$store.state.omdbApiKey,
         r: 'json'
       }
@@ -73,18 +73,18 @@ export default {
       await this.getFavourites()
 
       this.error = null
-      
-      for (let favourite of this.favourites) {
+
+      for (const favourite of this.favourites) {
         axios.get(
           this.$store.state.endpoints.movieApi,
-          {params: {i: favourite.imdb_id, ...params}}
-        ).then( response => {
-          if (response.data.Response !== "True") {
+          { params: { i: favourite.imdb_id, ...params } }
+        ).then(response => {
+          if (response.data.Response !== 'True') {
             this.error = `Error occurred! ${response.data.Error}`
             return
           }
           this.movieList.push(response.data)
-        }).catch( error => {
+        }).catch(error => {
           this.error = `Error occurred! Response status: ${error.response.status}.`
         })
       }
@@ -98,9 +98,9 @@ export default {
       await axiosInstance({
         url: this.$store.state.endpoints.favourites,
         method: 'get',
-        params: {},
-      }).then( response => {
-        if (response.status == 200) {
+        params: {}
+      }).then(response => {
+        if (response.status === 200) {
           this.favourites = response.data.results
         } else {
           this.backendError(`Error occurred! Back-end response status: ${response.status}.`)

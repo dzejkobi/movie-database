@@ -14,7 +14,6 @@
   </router-link>
 </template>
 
-
 <script>
 import FavouriteButton from '@/components/FavouriteButton.vue'
 

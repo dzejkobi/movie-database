@@ -44,7 +44,6 @@
   </div>
 </template>
 
-
 <script>
 import axios from 'axios'
 import { Field, Form, ErrorMessage } from 'vee-validate'
@@ -75,16 +74,16 @@ export default {
       }
 
       this.globalErrors = ''
-      
+
       axios.post(this.$store.state.endpoints.obtainJWT, payload)
-        .then( response => {
+        .then(response => {
           this.$store.commit('updateToken', response.data.token)
           this.$store.dispatch('pullAuthUserData')
-          this.$router.push({name: 'Home'})
+          this.$router.push({ name: 'Home' })
         })
-        .catch( error => {
-          if (error.response.status == 400) {
-            let errors = {}
+        .catch(error => {
+          if (error.response.status === 400) {
+            const errors = {}
 
             if (error.response.data.username) {
               errors.username = error.response.data.username.join('; ')
@@ -96,7 +95,7 @@ export default {
               this.globalErrors = error.response.data.non_field_errors.join('; ')
             }
             this.$refs.loginForm.setErrors(errors)
-            
+
             return Promise.resolve(error)
           }
         })

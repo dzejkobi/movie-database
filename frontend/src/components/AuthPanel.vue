@@ -11,7 +11,6 @@
   </span>
 </template>
 
-
 <script>
 import { mapState } from 'vuex'
 
@@ -25,7 +24,7 @@ export default {
   methods: {
     logout () {
       this.$store.commit('removeToken')
-      this.$router.push({name: 'Home'})
+      this.$router.push({ name: 'Home' })
     }
   }
 }

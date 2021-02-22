@@ -34,7 +34,6 @@
   </div>
 </template>
 
-
 <script>
 import axios from 'axios'
 import { mapState } from 'vuex'
@@ -67,7 +66,7 @@ export default {
   },
 
   watch: {
-    '$route': 'fetchData'
+    $route: 'fetchData'
   },
 
   methods: {
@@ -76,22 +75,22 @@ export default {
       this.loading = true
       const imdbID = this.$route.params.imdbID
 
-      let params = {
+      const params = {
         apikey: this.$store.state.omdbApiKey,
         r: 'json',
         i: imdbID
       }
 
       axios.get(
-        this.$store.state.endpoints.movieApi, {params: params}
-      ).then( response => {
+        this.$store.state.endpoints.movieApi, { params: params }
+      ).then(response => {
         this.loading = false
-        if (response.data.Response !== "True") {
+        if (response.data.Response !== 'True') {
           this.error = response.data.Error
           return
         }
         this.movieData = response.data
-      }).catch( error => {
+      }).catch(error => {
         this.error = `Error occurred! Response status: ${error.response.status}.`
         this.loading = false
       })

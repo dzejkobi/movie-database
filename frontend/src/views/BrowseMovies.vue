@@ -79,7 +79,6 @@
   </div>
 </template>
 
-
 <script>
 import axios from 'axios'
 import { mapState } from 'vuex'
@@ -96,7 +95,7 @@ export default {
     ErrorMessage,
     MovieTile
   },
-  
+
   data () {
     return {
       searchTitle: '',
@@ -117,7 +116,7 @@ export default {
       return [
         ...Array(Math.floor(this.totalResults / 10)).keys()
       ].map(i => i + 1)
-    },
+    }
   },
 
   provide () {
@@ -131,10 +130,10 @@ export default {
       this.getFavourites()
     }
   },
-  
+
   methods: {
     getMovies () {
-      let params = {
+      const params = {
         apikey: this.$store.state.omdbApiKey,
         r: 'json',
         s: this.searchTitle,
@@ -143,15 +142,15 @@ export default {
 
       this.error = null
       axios.get(
-        this.$store.state.endpoints.movieApi, {params: params}
-      ).then( response => {
-        if (response.data.Response !== "True") {
+        this.$store.state.endpoints.movieApi, { params: params }
+      ).then(response => {
+        if (response.data.Response !== 'True') {
           this.error = `Error occurred! ${response.data.Error}`
           return
         }
         this.movieList = response.data.Search
         this.totalResults = response.data.totalResults
-      }).catch( error => {
+      }).catch(error => {
         this.error = `Error occurred! Response status: ${error.response.status}.`
       })
     },
@@ -162,14 +161,14 @@ export default {
       axiosInstance({
         url: this.$store.state.endpoints.favourites,
         method: 'get',
-        params: {},
-      }).then( response => {
-        if (response.status == 200) {
+        params: {}
+      }).then(response => {
+        if (response.status === 200) {
           this.favourites = response.data.results
         } else {
           this.backendError(`Error occurred! Back-end response status: ${response.status}.`)
         }
-      }).catch( error => {
+      }).catch(error => {
         this.backendError('Unexpected back-end error occurred!')
         console.log(error)
       })

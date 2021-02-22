@@ -1,14 +1,13 @@
 <template>
   <div class="home">
     <img alt="Movie Database logo"
-         class="app-logo mb-5" 
+         class="app-logo mb-5"
          src="../assets/img/icons/movie.svg" />
 
     <h1 class="mb-5">Welcome to Movie Database</h1>
-    
-   
+
     <template v-if="isAuthenticated">
-      <p>You can now:</p>
+      <p class="pl-4">You can now:</p>
       <ul class="list">
         <li>
           <router-link :to="{name: 'BrowseMovies'}" class="link">
@@ -35,7 +34,6 @@
   </div>
 </template>
 
-
 <script>
 import { mapState } from 'vuex'
 
@@ -51,7 +49,6 @@ export default {
 }
 </script>
 
-
 <style scoped lang="scss">
 .app-logo {
   width: 300px;
@@ -59,11 +56,7 @@ export default {
   max-width: 100%;
 }
 ul.list {
-  max-width: 200px;
+  text-align: center;
   margin: 0 auto;
- 
-  li {
-    text-align: left;
-  }
 }
 </style>

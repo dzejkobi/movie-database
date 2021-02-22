@@ -12,7 +12,7 @@
     </template>
 
     <template v-else>
-      <Form ref="signUpForm" 
+      <Form ref="signUpForm"
             class="sign-up-form form form_centered form_narrow"
             @submit="submitSignUpForm">
         <div class="form-group">
@@ -70,11 +70,10 @@
   </div>
 </template>
 
-
 <script>
 import axios from 'axios'
-import { Field, Form, ErrorMessage } from 'vee-validate';
-import validators from '@/mixins/validators';
+import { Field, Form, ErrorMessage } from 'vee-validate'
+import validators from '@/mixins/validators'
 
 export default {
   name: 'SignUp',
@@ -104,18 +103,18 @@ export default {
       }
 
       this.globalErrors = ''
-      
+
       axios.post(this.$store.state.endpoints.signUp, payload)
-        .then( response => {
-          if (response.status == 201) {
+        .then(response => {
+          if (response.status === 201) {
             this.successfullySignedUp = true
           } else {
             this.globalErrors = `Received unexpected status: ${response.status}.`
           }
         })
-        .catch( error => {
-          if (error.response.status == 400) {
-            let errors = {}
+        .catch(error => {
+          if (error.response.status === 400) {
+            const errors = {}
 
             for (const fieldName of ['username', 'password1', 'password2']) {
               if (error.response.data[fieldName]) {
@@ -126,7 +125,7 @@ export default {
               this.globalErrors = error.response.data.non_field_errors.join('; ')
             }
             this.$refs.signUpForm.setErrors(errors)
-            
+
             return Promise.resolve(error)
           }
         })
