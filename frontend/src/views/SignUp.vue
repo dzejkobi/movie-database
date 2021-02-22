@@ -14,7 +14,7 @@
     <template v-else>
       <Form ref="signUpForm" 
             class="sign-up-form form form_centered form_narrow"
-            @submit.prevent="submitSignUpForm">
+            @submit="submitSignUpForm">
         <div class="form-group">
           <label for="id_username">Username</label>
           <Field name="username"

@@ -2,7 +2,9 @@
   <div class="container">
     <h1>Log in</h1>
 
-    <Form ref="loginForm" class="login-form form form_centered form_narrow" @submit="authenticate">
+    <Form ref="loginForm"
+          class="login-form form form_centered form_narrow"
+          @submit="authenticate">
       <div class="form-group">
         <label for="id_username">Username</label>
         <Field name="username"
