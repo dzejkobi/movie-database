@@ -7,7 +7,7 @@
         Your new account has been successfully created.
       </p>
       <p>
-        You can now <router-link :to="{ name: 'Login' }">login</router-link>.
+        You can now <router-link :to="{ name: 'Login' }" class="link">login</router-link>.
       </p>
     </template>
 
@@ -71,9 +71,9 @@
 </template>
 
 <script>
-import axios from 'axios'
 import { Field, Form, ErrorMessage } from 'vee-validate'
 import validators from '@/mixins/validators'
+import endpoints from '@/common/endpoints'
 
 export default {
   name: 'SignUp',
@@ -104,31 +104,32 @@ export default {
 
       this.globalErrors = ''
 
-      axios.post(this.$store.state.endpoints.signUp, payload)
-        .then(response => {
-          if (response.status === 201) {
-            this.successfullySignedUp = true
-          } else {
-            this.globalErrors = `Received unexpected status: ${response.status}.`
-          }
-        })
-        .catch(error => {
-          if (error.response.status === 400) {
-            const errors = {}
+      this.$store.dispatch(
+        'authStore/signedRequest',
+        { url: endpoints.signUp, method: 'post', data: payload }
+      ).then(response => {
+        if (response.status === 201) {
+          this.successfullySignedUp = true
+        } else {
+          this.globalErrors = `Received unexpected status: ${response.status}.`
+        }
+      }).catch(error => {
+        if (error.response.status === 400) {
+          const errors = {}
 
-            for (const fieldName of ['username', 'password1', 'password2']) {
-              if (error.response.data[fieldName]) {
-                errors[fieldName] = error.response.data[fieldName].join('; ')
-              }
+          for (const fieldName of ['username', 'password1', 'password2']) {
+            if (error.response.data[fieldName]) {
+              errors[fieldName] = error.response.data[fieldName].join('; ')
             }
-            if (error.response.data.non_field_errors) {
-              this.globalErrors = error.response.data.non_field_errors.join('; ')
-            }
-            this.$refs.signUpForm.setErrors(errors)
-
-            return Promise.resolve(error)
           }
-        })
+          if (error.response.data.non_field_errors) {
+            this.globalErrors = error.response.data.non_field_errors.join('; ')
+          }
+          this.$refs.signUpForm.setErrors(errors)
+
+          return Promise.resolve(error)
+        }
+      })
     }
   }
 }

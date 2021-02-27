@@ -53,7 +53,10 @@ router.beforeEach((to, from, next) => {
   let title = 'Movie Database'
   const subtitle = to.meta.title || to.name || null
 
-  if (restrictedRoutes.includes(to.name) && !store.state.isAuthenticated) {
+  if (
+    restrictedRoutes.includes(to.name) &&
+    !store.state.authStore.jwtToken
+  ) {
     next({ name: 'Login' })
     return
   }

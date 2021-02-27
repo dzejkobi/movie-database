@@ -1,7 +1,7 @@
 <template>
   <span class="auth-panel">
     <template v-if="isAuthenticated">
-      Hello {{ authUser.username }} |
+      Hello {{ userData.username }} |
       <a href="" @click.prevent="logout()">Logout</a>
     </template>
     <template v-else>
@@ -17,13 +17,14 @@ import { mapState } from 'vuex'
 export default {
   name: 'AuthPanel',
   computed: {
-    ...mapState([
-      'authUser', 'isAuthenticated'
+    ...mapState('authStore', [
+      'userData',
+      'isAuthenticated'
     ])
   },
   methods: {
     logout () {
-      this.$store.commit('removeToken')
+      this.$store.commit('authStore/unsetAuthUser')
       this.$router.push({ name: 'Home' })
     }
   }

@@ -84,7 +84,9 @@ import axios from 'axios'
 import { mapState } from 'vuex'
 import { Field, Form, ErrorMessage } from 'vee-validate'
 import validators from '@/mixins/validators'
+import endpoints from '@/common/endpoints'
 import MovieTile from '@/components/MovieTile'
+import { omdbApiKey } from '@/common/configVars'
 
 export default {
   name: 'BrowseMovies',
@@ -109,7 +111,7 @@ export default {
   },
 
   computed: {
-    ...mapState([
+    ...mapState('authStore', [
       'isAuthenticated'
     ]),
     pageRange () {
@@ -134,7 +136,7 @@ export default {
   methods: {
     getMovies () {
       const params = {
-        apikey: this.$store.state.omdbApiKey,
+        apikey: omdbApiKey,
         r: 'json',
         s: this.searchTitle,
         page: this.page
@@ -142,7 +144,7 @@ export default {
 
       this.error = null
       axios.get(
-        this.$store.state.endpoints.movieApi, { params: params }
+        endpoints.movieApi, { params: params }
       ).then(response => {
         if (response.data.Response !== 'True') {
           this.error = `Error occurred! ${response.data.Error}`
@@ -151,18 +153,16 @@ export default {
         this.movieList = response.data.Search
         this.totalResults = response.data.totalResults
       }).catch(error => {
-        this.error = `Error occurred! Response status: ${error.response.status}.`
+        this.error = `Error occurred: ${error}.`
+        console.log(error)
       })
     },
 
     getFavourites () {
-      const axiosInstance = axios.create(this.$store.getters.axiosCfg)
-
-      axiosInstance({
-        url: this.$store.state.endpoints.favourites,
-        method: 'get',
-        params: {}
-      }).then(response => {
+      this.$store.dispatch(
+        'authStore/signedRequest',
+        { url: endpoints.favourites, method: 'get' }
+      ).then(response => {
         if (response.status === 200) {
           this.favourites = response.data.results
         } else {

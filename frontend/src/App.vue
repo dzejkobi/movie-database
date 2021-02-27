@@ -22,10 +22,10 @@ export default {
     AuthPanel
   },
   async created () {
-    await this.$store.dispatch('pullAuthUserData')
+    await this.$store.dispatch('authStore/pullAuthUserData')
   },
   computed: {
-    ...mapState([
+    ...mapState('authStore', [
       'isAuthenticated'
     ])
   }

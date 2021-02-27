@@ -48,6 +48,7 @@
 import axios from 'axios'
 import { Field, Form, ErrorMessage } from 'vee-validate'
 import validators from '@/mixins/validators'
+import endpoints from '@/common/endpoints'
 
 export default {
   name: 'Login',
@@ -75,10 +76,10 @@ export default {
 
       this.globalErrors = ''
 
-      axios.post(this.$store.state.endpoints.obtainJWT, payload)
+      axios.post(endpoints.obtainJWT, payload)
         .then(response => {
-          this.$store.commit('updateToken', response.data.token)
-          this.$store.dispatch('pullAuthUserData')
+          this.$store.commit('authStore/updateToken', response.data.token)
+          this.$store.dispatch('authStore/pullAuthUserData')
           this.$router.push({ name: 'Home' })
         })
         .catch(error => {

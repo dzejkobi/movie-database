@@ -42,7 +42,7 @@ export default {
   components: {
   },
   computed: {
-    ...mapState([
+    ...mapState('authStore', [
       'isAuthenticated'
     ])
   }

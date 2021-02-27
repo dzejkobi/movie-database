@@ -26,6 +26,8 @@
 import axios from 'axios'
 import { mapState } from 'vuex'
 import MovieTile from '@/components/MovieTile'
+import endpoints from '@/common/endpoints'
+import { omdbApiKey } from '@/common/configVars'
 
 export default {
   name: 'FavouriteMovies',
@@ -52,13 +54,13 @@ export default {
   },
 
   computed: {
-    ...mapState([
-      'isAuthenticated'
+    ...mapState('authStore', [
+      'jwtToken'
     ])
   },
 
   created () {
-    if (this.isAuthenticated) {
+    if (this.jwtToken) {
       this.getMovies()
     }
   },
@@ -66,7 +68,7 @@ export default {
   methods: {
     async getMovies () {
       const params = {
-        apikey: this.$store.state.omdbApiKey,
+        apikey: omdbApiKey,
         r: 'json'
       }
 
@@ -76,7 +78,7 @@ export default {
 
       for (const favourite of this.favourites) {
         axios.get(
-          this.$store.state.endpoints.movieApi,
+          endpoints.movieApi,
           { params: { i: favourite.imdb_id, ...params } }
         ).then(response => {
           if (response.data.Response !== 'True') {
@@ -91,15 +93,13 @@ export default {
     },
 
     async getFavourites () {
-      // Code duplication due to lack of time - to be refactored.
-
-      const axiosInstance = axios.create(this.$store.getters.axiosCfg)
-
-      await axiosInstance({
-        url: this.$store.state.endpoints.favourites,
-        method: 'get',
-        params: {}
-      }).then(response => {
+      await this.$store.dispatch(
+        'authStore/signedRequest',
+        {
+          url: endpoints.favourites,
+          method: 'get'
+        }
+      ).then(response => {
         if (response.status === 200) {
           this.favourites = response.data.results
         } else {

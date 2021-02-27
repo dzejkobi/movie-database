@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import endpoints from '@/common/endpoints'
 
 export default {
   name: 'FavouriteButton',
@@ -44,23 +44,27 @@ export default {
 
   methods: {
     toggleFavourite () {
-      const axiosInstance = axios.create(this.$store.getters.axiosCfg)
-
       if (this.favourite) {
-        axiosInstance({
-          url: this.$store.state.endpoints.favourites + `${this.favourite.id}/`,
-          method: 'delete'
-        }).then(() => {
+        this.$store.dispatch(
+          'authStore/signedRequest',
+          {
+            url: endpoints.favourites + `${this.favourite.id}/`,
+            method: 'delete'
+          }
+        ).then(() => {
           this.favourites.splice(this.favourites.indexOf(this.favourite), 1)
         })
       } else {
-        axiosInstance({
-          url: this.$store.state.endpoints.favourites,
-          method: 'post',
-          data: {
-            imdb_id: this.movie.imdbID
+        this.$store.dispatch(
+          'authStore/signedRequest',
+          {
+            url: endpoints.favourites,
+            method: 'post',
+            data: {
+              imdb_id: this.movie.imdbID
+            }
           }
-        }).then(response => {
+        ).then(response => {
           this.favourites.push(response.data)
         })
       }
