@@ -35,8 +35,10 @@
 </template>
 
 <script>
-import axios from 'axios'
 import { mapState } from 'vuex'
+import axios from 'axios'
+import endpoints from '@/common/endpoints'
+import { omdbApiKey } from '@/common/configVars'
 
 export default {
   data () {
@@ -76,13 +78,14 @@ export default {
       const imdbID = this.$route.params.imdbID
 
       const params = {
-        apikey: this.$store.state.omdbApiKey,
+        apikey: omdbApiKey,
         r: 'json',
         i: imdbID
       }
 
       axios.get(
-        this.$store.state.endpoints.movieApi, { params: params }
+        endpoints.movieApi,
+        { params: params }
       ).then(response => {
         this.loading = false
         if (response.data.Response !== 'True') {
