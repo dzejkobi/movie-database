@@ -135,9 +135,10 @@ AUTH_USER_MODEL = 'users.User'
 # django-cors-headers settings
 CORS_ALLOW_ALL_ORIGINS = False
 CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOWED_ORIGINS = (
-    # TODO - set this properly for production
-)
+CORS_ALLOWED_ORIGINS = os.environ.get(
+    "DJANGO_CORS_ALLOWED_ORIGINS",
+    "http://127.0.0.1:8080 http://localhost:8080"
+).split(" ")
 
 
 REST_FRAMEWORK = {
