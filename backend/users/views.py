@@ -1,3 +1,5 @@
+from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
+from dj_rest_auth.registration.views import SocialLoginView
 from rest_framework import viewsets, generics
 from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticated
 
@@ -32,6 +34,10 @@ class CurrentUserView(generics.RetrieveAPIView):
 
     def get_object(self):
         return self.request.user
+
+
+class GoogleLogin(SocialLoginView):
+    adapter_class = GoogleOAuth2Adapter
 
 
 

@@ -1,10 +1,9 @@
 from django.urls import path, include
 
-from rest_framework_jwt.views import obtain_jwt_token, refresh_jwt_token
 from rest_framework.routers import DefaultRouter
-from drf_social_oauth2 import urls as auth_urls
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
-from .views import UserViewSet, CurrentUserView
+from .views import UserViewSet, CurrentUserView, GoogleLogin
 
 
 router = DefaultRouter()
@@ -12,10 +11,13 @@ router.register(r'users', UserViewSet, basename='user')
 
 urlpatterns = [
     # JWT auth
-    path('auth/token/obtain/', obtain_jwt_token),
-    path('auth/token/refresh/', refresh_jwt_token),
+    path('auth/token/obtain/', TokenObtainPairView.as_view(), name='obtain_jwt_token'),
+    path('auth/token/refresh/', TokenRefreshView.as_view(), name='refresh_jwt_token'),
 
-    path('auth/', include(auth_urls)),
+    path('allauth/', include('allauth.urls')),  # to make possible reversing allauth urls
 
     path('users/me/', CurrentUserView.as_view()),
+
+    path('rest-auth/', include('rest_auth.urls')),
+    path('rest-auth/login/google/', GoogleLogin.as_view(), name='google-login'),
 ] + router.urls

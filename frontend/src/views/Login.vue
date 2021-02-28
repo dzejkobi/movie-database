@@ -41,12 +41,21 @@
         Log In
       </button>
     </Form>
+
+    <p class="mt-5">Or sign in with:</p>
+
+    <button type="button"
+            class="btn btn-primary"
+            @click="googleSignIn()">
+      Google
+    </button>
   </div>
 </template>
 
 <script>
 import axios from 'axios'
 import { Field, Form, ErrorMessage } from 'vee-validate'
+
 import validators from '@/mixins/validators'
 import endpoints from '@/common/endpoints'
 
@@ -68,6 +77,26 @@ export default {
   },
 
   methods: {
+    async googleSignIn () {
+      try {
+        const googleUser = await this.$gAuth.signIn()
+        if (!googleUser) {
+          return null
+        }
+
+        axios.post(endpoints.googleSignIn, { access_token: googleUser.getAuthResponse().access_token })
+          .then(response => {
+            this.$store.commit('authStore/updateToken', response.data.access_token)
+            this.$store.dispatch('authStore/pullAuthUserData')
+            this.$router.push({ name: 'Home' })
+          })
+      } catch (error) {
+        // on fail do something
+        console.error(error)
+        return null
+      }
+    },
+
     authenticate () {
       const payload = {
         username: this.username,
@@ -78,7 +107,7 @@ export default {
 
       axios.post(endpoints.obtainJWT, payload)
         .then(response => {
-          this.$store.commit('authStore/updateToken', response.data.token)
+          this.$store.commit('authStore/updateToken', response.data.access)
           this.$store.dispatch('authStore/pullAuthUserData')
           this.$router.push({ name: 'Home' })
         })
@@ -96,7 +125,9 @@ export default {
               this.globalErrors = error.response.data.non_field_errors.join('; ')
             }
             this.$refs.loginForm.setErrors(errors)
-
+            return Promise.resolve(error)
+          } else if (error.response.status === 401) {
+            this.globalErrors = error.response.data.detail
             return Promise.resolve(error)
           }
         })
