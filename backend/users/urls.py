@@ -18,6 +18,6 @@ urlpatterns = [
 
     path('users/me/', CurrentUserView.as_view()),
 
-    path('rest-auth/', include('rest_auth.urls')),
+    path('rest-auth/', include('dj_rest_auth.urls')),
     path('rest-auth/login/google/', GoogleLogin.as_view(), name='google-login'),
 ] + router.urls
