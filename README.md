@@ -32,15 +32,24 @@ Required steps:
   
 * obtain an API key from: http://www.omdbapi.com/apikey.aspx
 
+* obtain Google Client ID and Google Client Secret by creating and configuring
+  project on: https://console.developers.google.com
+
 * enter into project directory:
   ```
   cd movie-database
   ```
 
-* create `env.local` file in `./frontend` directory and set `VUE_APP_MOVIE_API_KEY` variable:
+* create `env.local` file in `./frontend` directory and set
+  variables:
   ```
-  printf "VUE_APP_MOVIE_API_KEY=YourApiKEY" > ./frontend/env.local
+  VUE_APP_MOVIE_API_KEY=YourApiKey
+  VUE_APP_GOOGLE_CLIENT_ID=YourGoogleClientId
+
+* create `env.local` file in `/backend` directory and set
   ```
+  DJANGO_GOOGLE_CLIENT_ID=YourGoogleClientId
+  DJANGO_GOOGLE_SECRET=YourGoogleClientSecret
 
 * run command:
   ```

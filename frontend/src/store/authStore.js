@@ -21,7 +21,7 @@ export default {
       }
 
       if (state.jwtToken) {
-        headers.Authorization = `JWT ${state.jwtToken}`
+        headers.Authorization = `Bearer ${state.jwtToken}`
       }
 
       return {

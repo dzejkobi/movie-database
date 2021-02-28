@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 import os
+from datetime import timedelta
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -34,10 +35,18 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
 
     'rest_framework',
     'rest_framework.authtoken',
     'corsheaders',
+
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.facebook',
+    'dj_rest_auth',
 
     'users',
     'movies',
@@ -53,6 +62,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+SITE_ID = 1
 
 ROOT_URLCONF = 'config.urls'
 
@@ -109,6 +120,12 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
@@ -153,7 +170,7 @@ REST_FRAMEWORK = {
         'rest_framework.renderers.TemplateHTMLRenderer'
     ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
         'rest_framework.authentication.SessionAuthentication',
     ),
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
@@ -161,12 +178,18 @@ REST_FRAMEWORK = {
 }
 
 
-from datetime import timedelta
+REST_USE_JWT = True
+JWT_AUTH_COOKIE = 'jwt-auth'
 
-JWT_AUTH = {
-    'JWT_ALLOW_REFRESH': True,
-    'JWT_EXPIRATION_DELTA': timedelta(hours=1),
-    'JWT_REFRESH_EXPIRATION_DELTA': timedelta(days=7),
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'APP': {
+            'client_id': os.environ.get('DJANGO_GOOGLE_CLIENT_ID', 'not-provided'),
+            'secret': os.environ.get('DJANGO_GOOGLE_SECRET', 'not-provided'),
+            'key': ''
+        }
+    }
 }
 
 
